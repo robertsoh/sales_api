@@ -1,0 +1,8 @@
+---
+applications:
+- name: sales_api
+  memory: 250M
+  instances: 1
+  buildpack: python_buildpack
+  services:
+  - sales_bd
