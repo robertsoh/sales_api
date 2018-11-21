@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^$', schema_view),
     url(r'^api/', include('apps.users.api_v1.urls', namespace='api_users')),
     url(r'^api/', include('apps.products.api_v1.urls', namespace='api_products')),
+    url(r'^api/', include('apps.orders.api_v1.urls', namespace='api_orders')),
 ]
