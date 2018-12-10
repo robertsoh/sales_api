@@ -1,7 +1,8 @@
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
-from apps.orders.models import Item
+from apps.orders.models import Item, Order
 
 
 def serialize_item(item):
@@ -26,3 +27,17 @@ class ItemCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ('product', 'quantity', 'order',)
+
+
+class ConfirmOrderSerializer(serializers.ModelSerializer):
+    total = serializers.DecimalField(decimal_places=settings.DECIMAL_PLACES, max_digits=settings.MAX_DIGITS,
+                                     read_only=True)
+    shipping = serializers.DecimalField(decimal_places=settings.DECIMAL_PLACES, max_digits=settings.MAX_DIGITS,
+                                        read_only=True)
+    subtotal = serializers.DecimalField(decimal_places=settings.DECIMAL_PLACES, max_digits=settings.MAX_DIGITS,
+                                        read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ('id', 'has_shipping', 'full_name', 'email', 'phone', 'street', 'city', 'subtotal', 'total',
+                  'shipping',)

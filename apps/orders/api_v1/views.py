@@ -1,7 +1,10 @@
+from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.orders.api_v1.serializers import serialize_item, ItemCartSerializer, OrderUUIDSerializer
+from apps.orders.api_v1.serializers import (serialize_item, ItemCartSerializer, OrderUUIDSerializer,
+                                            ConfirmOrderSerializer)
+from apps.orders.decorators import OrderShippingPriceDecorator
 from apps.orders.models import Order
 
 
@@ -40,3 +43,16 @@ class AddToCartView(APIView):
                 'message': '{} was added!'.format(item.product_name)
             }
         })
+
+
+class ConfirmOrderView(UpdateAPIView):
+    serializer_class = ConfirmOrderSerializer
+    queryset = Order.objects.all()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.confirm_order()
+        if instance.has_shipping:
+            order_shipping_price = OrderShippingPriceDecorator(instance)
+            order_shipping_price.compute_total()
+        instance.save()
