@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -28,6 +29,7 @@ class CartView(APIView):
 
 class AddToCartView(APIView):
 
+    @transaction.atomic
     def post(self, request):
         item_serialize = ItemCartSerializer(data=request.data)
         item_serialize.is_valid(raise_exception=True)

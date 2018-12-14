@@ -90,7 +90,6 @@ class Order(TimeStampedModel, IOrder):
         self.total = self.subtotal
 
     def confirm_order(self):
-        # self._check_status(self.STATUS_DRAFT)
         self.compute_total()
         self.status = self.STATUS_NEW
         self.payment_date = timezone.now()

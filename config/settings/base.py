@@ -38,7 +38,7 @@ LOCAL_APPS = [
     'apps.users',
     'apps.products',
     'apps.sequences',
-    'apps.orders',
+    'apps.orders.apps.OrdersConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -130,6 +130,21 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'token',
+    'x-device-id',
+    'x-device-type',
+    'x-push-id',
+    'dataserviceversion',
+    'maxdataserviceversion'
+)
 
 MAX_DIGITS = 10
 DECIMAL_PLACES = 2
