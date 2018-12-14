@@ -14,7 +14,7 @@ class Category(TimeStampedModel):
     complete_name = models.CharField(max_length=200, null=True, editable=False)
     slug = models.SlugField(max_length=255, editable=False, null=True)
 
-    image = models.ImageField(upload_to='category/images/%Y/%m/%d/', null=True, blank=True)
+    image = models.ImageField(upload_to='category/images/', null=True, blank=True)
     description = models.CharField('Description', max_length=255, null=True, blank=True)
 
     class Meta:
@@ -48,6 +48,7 @@ class Product(TimeStampedModel):
     short_description = models.TextField('Description')
     long_description = models.TextField('Long Description', null=True, blank=True)
     has_stock = models.BooleanField('Has stock?', default=True)
+    image = models.ImageField(upload_to='products/images/', null=True, blank=True)
 
     objects = ProductQuerySet.as_manager()
 
