@@ -5,7 +5,7 @@ from django.db import models
 from django.utils import timezone
 
 from apps.common.models import TimeStampedModel
-from apps.orders import exceptions
+from apps.orders import exceptions, tasks
 from apps.orders.decorators import IOrder
 
 
@@ -95,6 +95,7 @@ class Order(TimeStampedModel, IOrder):
         self.status = self.STATUS_NEW
         self.payment_date = timezone.now()
         self.save()
+        tasks.send_order_confirmation.delay(self.id)
 
     def add_or_update_product(self, product, quantity=1):
         current_item = self.items.filter(product=product).first()
